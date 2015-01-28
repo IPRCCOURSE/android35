@@ -9,6 +9,7 @@ import android.os.Bundle; // for saving state information
 import android.text.Editable; // for EditText event handling
 import android.text.TextWatcher; // EditText listener
 import android.widget.EditText; // for bill amount input
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.SeekBar; // for changing custom tip percentage
@@ -28,7 +29,7 @@ public class MainActivity extends Activity
    private double customPercent = 0.18; // initial custom tip percentage
    
    private int persons = 1;
-   boolean isBeforeTax = true;
+   private boolean isBeforeTax = true;
    
    private double avgPay; 
    
@@ -73,6 +74,8 @@ public class MainActivity extends Activity
       // update GUI based on billAmount and customPercent 
       amountDisplayTextView.setText(
          currencyFormat.format(billAmount));
+      
+      
       updateStandard(); // update the 15% tip TextViews
       updateCustom(); // update the custom tip TextViews
 
@@ -92,7 +95,12 @@ public class MainActivity extends Activity
       
       RadioGroup taxGroup = (RadioGroup) findViewById(R.id.radioTax);
       
+      taxGroup.clearCheck();
       taxGroup.setOnCheckedChangeListener(taxChanged);
+      
+      RadioButton rb = (RadioButton)findViewById(R.id.raBefore);
+      
+      rb.setChecked(true);
       
       
    } // end method onCreate
@@ -107,6 +115,9 @@ public class MainActivity extends Activity
       if (!isBeforeTax) fifteenPercentTotal = fifteenPercentTotal * 1.13;
       
       // display 15% tip and total formatted as currency
+     
+      
+      NumberTextView.setText("" + persons);
       tip15TextView.setText(currencyFormat.format(fifteenPercentTip));
       total15TextView.setText(currencyFormat.format(fifteenPercentTotal));
       
@@ -129,6 +140,8 @@ public class MainActivity extends Activity
      
 
       if (!isBeforeTax) customTotal = customTotal * 1.13;
+      
+      NumberTextView.setText("" + persons);
       // display custom tip and total formatted as currency
       tipCustomTextView.setText(currencyFormat.format(customTip));
       totalCustomTextView.setText(currencyFormat.format(customTotal));
