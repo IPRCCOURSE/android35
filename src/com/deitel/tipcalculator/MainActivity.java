@@ -9,6 +9,8 @@ import android.os.Bundle; // for saving state information
 import android.text.Editable; // for EditText event handling
 import android.text.TextWatcher; // EditText listener
 import android.widget.EditText; // for bill amount input
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.SeekBar; // for changing custom tip percentage
 import android.widget.SeekBar.OnSeekBarChangeListener; // SeekBar listener
 import android.widget.TextView; // for displaying text
@@ -88,7 +90,9 @@ public class MainActivity extends Activity
     	         (SeekBar) findViewById(R.id.NumseekBar);
       customTipSeekBarNum.setOnSeekBarChangeListener(customSeekBarListenerNumPerson);
       
+      RadioGroup taxGroup = (RadioGroup) findViewById(R.id.radioTax);
       
+      taxGroup.setOnCheckedChangeListener(taxChanged);
       
       
    } // end method onCreate
@@ -157,6 +161,33 @@ public class MainActivity extends Activity
       } // end method onStopTrackingTouch
    }; // end OnSeekBarChangeListener
 
+  
+   private OnCheckedChangeListener taxChanged =
+		   new OnCheckedChangeListener()
+   {
+	   
+	   @Override
+	   public void onCheckedChanged(RadioGroup group, int checkedID){
+		   
+		   if (checkedID == R.id.raBefore)
+			   isBeforeTax = true;
+		   
+		   if (checkedID == R.id.raAfter)
+			   isBeforeTax = false; 
+		   
+		   
+		   updateStandard();
+	       updateCustom();
+		   
+		   
+		   
+	   }
+	   
+	   
+	   
+	   
+   };
+   
    
    private OnSeekBarChangeListener customSeekBarListenerNumPerson = 
 		      new OnSeekBarChangeListener() 
